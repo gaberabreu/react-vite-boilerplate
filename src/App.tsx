@@ -1,32 +1,17 @@
-import { useState } from "react";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
+import { routeTree } from "./routeTree.gen";
+
+const router = createRouter({ routeTree });
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 const App = () => {
-  const [count, setCount] = useState(0);
-
-  return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{ mb: 2 }}
-        >
-          App.tsx {count}
-        </Typography>
-        <Button
-          variant="contained"
-          onClick={() => setCount((prev) => prev + 1)}
-        >
-          Click me
-        </Button>
-      </Box>
-    </Container>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
