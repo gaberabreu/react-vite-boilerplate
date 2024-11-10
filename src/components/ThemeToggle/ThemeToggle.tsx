@@ -13,6 +13,7 @@ const ThemeToggle: FC = () => {
   return (
     <IconButton
       color="inherit"
+      aria-label="toggle theme"
       onClick={toggle}
     >
       {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}

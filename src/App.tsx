@@ -3,7 +3,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { useThemeStore } from "./stores/themeStore";
+import { useThemeStore } from "./stores/themeStore/themeStore";
 
 import { routeTree } from "./routeTree.gen";
 

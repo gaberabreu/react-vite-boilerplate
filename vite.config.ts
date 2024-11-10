@@ -28,5 +28,6 @@ export default defineConfig({
     coverage: {
       reporter: ["html", "lcov"],
     },
+    mockReset: true,
   },
 });
