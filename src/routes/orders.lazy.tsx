@@ -8,11 +8,11 @@ import Typography from "@mui/material/Typography";
 const RouteComponent: FC = () => {
   return (
     <Box>
-      <Typography>Content from /</Typography>
+      <Typography>Content from /orders</Typography>
     </Box>
   );
 };
 
-export const Route = createLazyFileRoute("/")({
+export const Route = createLazyFileRoute("/orders")({
   component: RouteComponent,
 });

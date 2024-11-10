@@ -16,22 +16,52 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
-const AboutLazyImport = createFileRoute('/about')()
+const OrdersLazyImport = createFileRoute('/orders')()
+const IntegrationsLazyImport = createFileRoute('/integrations')()
 const IndexLazyImport = createFileRoute('/')()
+const ReportsIndexLazyImport = createFileRoute('/reports/')()
+const ReportsTrafficLazyImport = createFileRoute('/reports/traffic')()
+const ReportsSalesLazyImport = createFileRoute('/reports/sales')()
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  id: '/about',
-  path: '/about',
+const OrdersLazyRoute = OrdersLazyImport.update({
+  id: '/orders',
+  path: '/orders',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/orders.lazy').then((d) => d.Route))
+
+const IntegrationsLazyRoute = IntegrationsLazyImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/integrations.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const ReportsIndexLazyRoute = ReportsIndexLazyImport.update({
+  id: '/reports/',
+  path: '/reports/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/reports/index.lazy').then((d) => d.Route))
+
+const ReportsTrafficLazyRoute = ReportsTrafficLazyImport.update({
+  id: '/reports/traffic',
+  path: '/reports/traffic',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/reports/traffic.lazy').then((d) => d.Route),
+)
+
+const ReportsSalesLazyRoute = ReportsSalesLazyImport.update({
+  id: '/reports/sales',
+  path: '/reports/sales',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/reports/sales.lazy').then((d) => d.Route))
 
 // Populate the FileRoutesByPath interface
 
@@ -44,11 +74,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+    '/integrations': {
+      id: '/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof IntegrationsLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/orders': {
+      id: '/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof OrdersLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/reports/sales': {
+      id: '/reports/sales'
+      path: '/reports/sales'
+      fullPath: '/reports/sales'
+      preLoaderRoute: typeof ReportsSalesLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/reports/traffic': {
+      id: '/reports/traffic'
+      path: '/reports/traffic'
+      fullPath: '/reports/traffic'
+      preLoaderRoute: typeof ReportsTrafficLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/reports/': {
+      id: '/reports/'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsIndexLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -58,37 +116,76 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/integrations': typeof IntegrationsLazyRoute
+  '/orders': typeof OrdersLazyRoute
+  '/reports/sales': typeof ReportsSalesLazyRoute
+  '/reports/traffic': typeof ReportsTrafficLazyRoute
+  '/reports': typeof ReportsIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/integrations': typeof IntegrationsLazyRoute
+  '/orders': typeof OrdersLazyRoute
+  '/reports/sales': typeof ReportsSalesLazyRoute
+  '/reports/traffic': typeof ReportsTrafficLazyRoute
+  '/reports': typeof ReportsIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/integrations': typeof IntegrationsLazyRoute
+  '/orders': typeof OrdersLazyRoute
+  '/reports/sales': typeof ReportsSalesLazyRoute
+  '/reports/traffic': typeof ReportsTrafficLazyRoute
+  '/reports/': typeof ReportsIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths:
+    | '/'
+    | '/integrations'
+    | '/orders'
+    | '/reports/sales'
+    | '/reports/traffic'
+    | '/reports'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to:
+    | '/'
+    | '/integrations'
+    | '/orders'
+    | '/reports/sales'
+    | '/reports/traffic'
+    | '/reports'
+  id:
+    | '__root__'
+    | '/'
+    | '/integrations'
+    | '/orders'
+    | '/reports/sales'
+    | '/reports/traffic'
+    | '/reports/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AboutLazyRoute: typeof AboutLazyRoute
+  IntegrationsLazyRoute: typeof IntegrationsLazyRoute
+  OrdersLazyRoute: typeof OrdersLazyRoute
+  ReportsSalesLazyRoute: typeof ReportsSalesLazyRoute
+  ReportsTrafficLazyRoute: typeof ReportsTrafficLazyRoute
+  ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AboutLazyRoute: AboutLazyRoute,
+  IntegrationsLazyRoute: IntegrationsLazyRoute,
+  OrdersLazyRoute: OrdersLazyRoute,
+  ReportsSalesLazyRoute: ReportsSalesLazyRoute,
+  ReportsTrafficLazyRoute: ReportsTrafficLazyRoute,
+  ReportsIndexLazyRoute: ReportsIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -102,14 +199,30 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/integrations",
+        "/orders",
+        "/reports/sales",
+        "/reports/traffic",
+        "/reports/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/integrations": {
+      "filePath": "integrations.lazy.tsx"
+    },
+    "/orders": {
+      "filePath": "orders.lazy.tsx"
+    },
+    "/reports/sales": {
+      "filePath": "reports/sales.lazy.tsx"
+    },
+    "/reports/traffic": {
+      "filePath": "reports/traffic.lazy.tsx"
+    },
+    "/reports/": {
+      "filePath": "reports/index.lazy.tsx"
     }
   }
 }
