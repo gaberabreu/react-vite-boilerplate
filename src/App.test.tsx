@@ -7,7 +7,6 @@ describe("App", () => {
   it("should render App", () => {
     const { getByText } = render(<App />);
 
-    const buttonElement = getByText(/App.tsx/i);
-    expect(buttonElement).toBeInTheDocument();
+    expect(getByText(/Boilerplate/i)).toBeInTheDocument();
   });
 });
