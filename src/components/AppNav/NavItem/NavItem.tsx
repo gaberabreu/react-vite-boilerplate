@@ -1,34 +1,32 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 
-import type { LinkProps } from "@tanstack/react-router";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
+import ListItemButton, { type ListItemButtonProps } from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-import LinkBehavior from "../LinkBehaviour";
+import { useAppNavStore } from "@/stores/appNavStore";
 
-interface NavItemProps {
+interface NavItemProps extends ListItemButtonProps {
   text: string;
-  icon: JSX.Element;
-  href: LinkProps["to"];
-  open: boolean;
+  icon: ReactNode;
 }
 
-const NavItem: FC<NavItemProps> = ({ text, icon, href = "/", open }) => {
+const NavItem: FC<NavItemProps> = ({ text, icon, ...rest }) => {
+  const open = useAppNavStore((state) => state.open);
+
   return (
     <ListItem
       disablePadding
       sx={{ display: "block" }}
     >
       <ListItemButton
-        LinkComponent={LinkBehavior}
-        href={href}
         sx={{
           minHeight: 48,
           justifyContent: open ? "initial" : "center",
           px: 2.5,
         }}
+        {...rest}
       >
         <ListItemIcon
           sx={{

@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import MenuIcon from "@mui/icons-material/Menu";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 
 import ThemeToggle from "@/components/ThemeToggle";
 import { useAppNavStore } from "@/stores/appNavStore";
@@ -11,6 +12,7 @@ import { useAppNavStore } from "@/stores/appNavStore";
 import { StyledAppBar } from "./AppHeader.styled";
 
 const AppHeader: FC = () => {
+  const appNavOpen = useAppNavStore((state) => state.open);
   const toggleAppNav = useAppNavStore((state) => state.toggle);
 
   return (
@@ -22,7 +24,7 @@ const AppHeader: FC = () => {
           sx={{ mr: 5 }}
           onClick={toggleAppNav}
         >
-          <MenuIcon />
+          {appNavOpen ? <MenuOpenIcon /> : <MenuIcon />}
         </IconButton>
         <Typography
           variant="h6"

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
 import AppHeader from "@/layout/AppHeader";
-import AppNav from "@/layout/AppNav";
+import AppSideBar from "@/ui/SideBar/AppSideBar";
 
 export const Route = createRootRoute({
   component: () => {
@@ -12,7 +12,7 @@ export const Route = createRootRoute({
       <>
         <AppHeader />
         <Box sx={{ display: "flex" }}>
-          <AppNav />
+          <AppSideBar />
           <Box
             component="main"
             sx={{ flexGrow: 1, p: 3 }}
