@@ -4,11 +4,9 @@ import { ThemeProvider, createTheme, type PaletteMode } from "@mui/material/styl
 
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import BarChartIcon from "@mui/icons-material/BarChart";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -21,10 +19,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import AppBar from "@/components/AppBar";
-import SideBar from "@/components/SideBar";
-import MenuLink from "@/components/SideBar/MenuLink";
-import MenuSubHeader from "@/components/SideBar/MenuSubHeader";
-import SubMenu from "@/components/SideBar/SubMenu";
+import DynamicSideBar from "@/components/DynamicSideBar";
 
 declare module "@mui/material/styles" {
   interface Theme {
@@ -46,6 +41,8 @@ const App = () => {
     },
     drawerWidth: 240,
   });
+
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <ThemeProvider theme={theme}>
@@ -78,47 +75,70 @@ const App = () => {
         </Box>
       </AppBar>
       <Box sx={{ display: "flex" }}>
-        <SideBar open={open}>
-          <Toolbar />
-          <List>
-            <MenuSubHeader text="Main items" />
-            <MenuLink
-              icon={<DashboardIcon />}
-              selected
-              text="Dashboard"
-              to="/"
-            />
-            <MenuLink
-              icon={<ShoppingCartIcon />}
-              text="Orders"
-              to="/orders"
-            />
-          </List>
-          <Divider />
-          <List>
-            <MenuSubHeader text="Analytics" />
-            <SubMenu
-              icon={<BarChartIcon />}
-              text="Reports"
-            >
-              <MenuLink
-                icon={<DescriptionIcon />}
-                text="Sales"
-                to="/reports/sales"
-              />
-              <MenuLink
-                icon={<DescriptionIcon />}
-                text="Traffic"
-                to="/reports/traffic"
-              />
-            </SubMenu>
-            <MenuLink
-              icon={<LayersIcon />}
-              text="Integrations"
-              to="/integrations"
-            />
-          </List>
-        </SideBar>
+        <DynamicSideBar
+          toolbar
+          open={open}
+          mobile={mobile}
+          elements={[
+            {
+              key: "menuSubHeader-1",
+              kind: "menuSubHeader",
+              text: "Main items",
+            },
+            {
+              key: "menuLink-1",
+              kind: "menuLink",
+              icon: <DashboardIcon />,
+              text: "Dashboard",
+              to: "/",
+            },
+            {
+              key: "menuLink-2",
+              kind: "menuLink",
+              icon: <ShoppingCartIcon />,
+              text: "Shopping",
+              to: "/orders",
+            },
+            {
+              key: "divider-1",
+              kind: "divider",
+            },
+            {
+              key: "menuSubHeader-2",
+              kind: "menuSubHeader",
+              text: "Analytics",
+            },
+            {
+              key: "subMenu-1",
+              kind: "subMenu",
+              icon: <BarChartIcon />,
+              text: "Reports",
+              subElements: [
+                {
+                  key: "menuLink-3",
+                  kind: "menuLink",
+                  icon: <DescriptionIcon />,
+                  text: "Sales",
+                  to: "/reports/sales",
+                },
+                {
+                  key: "menuLink-4",
+                  kind: "menuLink",
+                  icon: <DescriptionIcon />,
+                  text: "Traffic",
+                  to: "/reports/traffic",
+                },
+              ],
+            },
+            {
+              key: "menuLink-5",
+              kind: "menuLink",
+              icon: <LayersIcon />,
+              text: "Integrations",
+              to: "/integrations",
+            },
+          ]}
+        />
         <Box
           component="main"
           sx={{ flexGrow: 1, p: 3 }}
